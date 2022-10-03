@@ -7,6 +7,7 @@ const Death = ({ death }) => {
         <li>
             <Method method={method} />
             <SourceCharacter sourceCharacter={source_character} />
+            <br />
         </li>
     )
 }

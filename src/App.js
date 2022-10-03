@@ -6,18 +6,32 @@ import { useState } from 'react';
 
 function App() {
   const [responseArray, setResponseArray] = useState([]);
+  const [scoreObject, setScoreObject] = useState({});
 
   const handleClick = async () => {
     const response = await fetchData();
     if (response !== "error") {
-      response.forEach(response => setResponseArray([...responseArray, response]));
+      response.forEach(response => {
+        const { source_character } = response;
+        let tempScoreObject = scoreObject;
+        if (scoreObject[source_character]) {
+          tempScoreObject[source_character]++;
+        }
+        else { tempScoreObject[source_character] = 1 }
+
+        setScoreObject(tempScoreObject);
+        setResponseArray([...responseArray, response]);
+
+      })
     }
-    console.log("responseArray", responseArray);
+
   }
 
   return (
     <>
-      <Header handleClick={handleClick} />
+      <Header handleClick={handleClick}
+        scoreObject={scoreObject}
+      />
       <List listItems={responseArray} />
     </>
 
